@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.min.js"></script>
+<script>
+const skapi = new Skapi('ap22p3Z9NKH9CBNseFEc','f8e16604-69e4-451c-9d90-4410f801c006');
+window.addEventListener('DOMContentLoaded', () => {
+  skapi.getProfile().then(profile => {
+    if(profile){
+      location.replace('chat.html');
+    }
+  });
+});
+</script>
+</head>
+<body>
+<div class="container">
+<h2>Login</h2>
+<form action="chat.html" onsubmit="skapi.login(event).catch(err=>alert(err.message))">
+<input type="email" name="email" placeholder="Email" required>
+<input type="password" name="password" placeholder="Password" required>
+<input type="submit" value="Login">
+</form>
+<p><a href="signup.html">Create account</a></p>
+</div>
+</body>
+</html>

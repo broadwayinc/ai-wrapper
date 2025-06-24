@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI Girlfriend Chat</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.min.js"></script>
+<script>
+const skapi = new Skapi('ap22p3Z9NKH9CBNseFEc','f8e16604-69e4-451c-9d90-4410f801c006');
+window.addEventListener('DOMContentLoaded', () => {
+  skapi.getProfile().then(profile => {
+    const nav = document.getElementById('nav');
+    if(profile){
+      nav.innerHTML = '<a href="chat.html">Open Chat</a> | <a href="#" id="logout">Logout</a>';
+      document.getElementById('logout').addEventListener('click', e=>{
+        e.preventDefault();
+        skapi.logout().then(()=>location.reload());
+      });
+    }
+    else {
+      nav.innerHTML = '<a href="login.html">Login</a> | <a href="signup.html">Sign Up</a>';
+    }
+  });
+});
+</script>
+</head>
+<body>
+<div class="container">
+<h1>Welcome</h1>
+<p id="nav">Checking login...</p>
+</div>
+</body>
+</html>
