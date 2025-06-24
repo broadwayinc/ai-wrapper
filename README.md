@@ -1,6 +1,6 @@
 # AI Wrapper Chatbot
 
-This web application demonstrates a simple chat box where you can talk with an AI girlfriend. Authentication and backend communication are handled by [Skapi](https://www.skapi.com).
+This web application demonstrates a simple chat box where you can chat with a mental wellness therapist AI. Authentication and backend communication are handled by [Skapi](https://www.skapi.com).
 
 ## Running
 
