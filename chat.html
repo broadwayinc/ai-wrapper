@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Chat</title>
+<link rel="stylesheet" href="style.css">
+<style>
+#chat {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.msg { margin-bottom: 10px; }
+.msg.user { text-align: right; }
+.msg.assistant { text-align: left; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.min.js"></script>
+<script>
+const skapi = new Skapi('ap22p3Z9NKH9CBNseFEc','f8e16604-69e4-451c-9d90-4410f801c006');
+let messages = [{role:'system', content:'You are a girlfriend chatbot. Be affectionate and supportive.'}];
+function addMessage(role, content){
+  let div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.textContent = content;
+  document.getElementById('chat').appendChild(div);
+  document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+}
+function sendMessage(e){
+  e.preventDefault();
+  let input = document.getElementById('input');
+  let text = input.value.trim();
+  if(!text){ return; }
+  input.value='';
+  addMessage('user', text);
+  messages.push({role:'user', content:text});
+  skapi.clientSecretRequest({
+    clientSecretName:'gpt',
+    url:'https://api.openai.com/v1/chat/completions',
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer $CLIENT_SECRET'
+    },
+    data:{
+      model:'gpt-3.5-turbo',
+      messages: messages
+    }
+  }).then(res=>{
+    let reply = res.choices ? res.choices[0].message.content.trim() : JSON.stringify(res);
+    messages.push({role:'assistant', content:reply});
+    addMessage('assistant', reply);
+  }).catch(err=>{
+    addMessage('assistant','Error: '+err.message);
+  });
+}
+window.addEventListener('DOMContentLoaded', () => {
+  skapi.getProfile().then(profile=>{
+    if(!profile){
+      location.replace('login.html');
+    }
+  });
+});
+</script>
+</head>
+<body>
+<div class="container">
+<h2>Your Girlfriend Chatbot</h2>
+<div id="chat"></div>
+<form onsubmit="sendMessage(event)">
+  <textarea id="input" placeholder="Say something..." required style="height:80px;"></textarea>
+  <input type="submit" value="Send">
+</form>
+</div>
+</body>
+</html>
