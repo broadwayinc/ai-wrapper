@@ -9,6 +9,8 @@ Build a complete web application using static HTML files with backend functional
 Use the Skapi API to implement all backend features. Refer to the Skapi API documentation:
 https://docs.skapi.com/skapi.md
 
+The service ID is "ap22p3Z9NKH9CBNseFEc" and the owner ID is "f8e16604-69e4-451c-9d90-4410f801c006"
+
 ## Page Routing and Navigation
 
 - Set the starting page as index.html.
