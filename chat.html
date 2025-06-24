@@ -19,7 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.min.js"></script>
 <script>
 const skapi = new Skapi('ap22p3Z9NKH9CBNseFEc','f8e16604-69e4-451c-9d90-4410f801c006');
-let messages = [{role:'system', content:'You are a girlfriend chatbot. Be affectionate and supportive.'}];
+let messages = [{role:'system', content:'You are a mental wellness therapist. Offer compassionate and helpful guidance.'}];
 function addMessage(role, content){
   let div = document.createElement('div');
   div.className = 'msg ' + role;
@@ -66,7 +66,7 @@ window.addEventListener('DOMContentLoaded', () => {
 </head>
 <body>
 <div class="container">
-<h2>Your Girlfriend Chatbot</h2>
+<h2>Your Mental Wellness Therapist</h2>
 <div id="chat"></div>
 <form onsubmit="sendMessage(event)">
   <textarea id="input" placeholder="Say something..." required style="height:80px;"></textarea>
