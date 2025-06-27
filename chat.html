@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Chat</title>
+<title>Translator Chat</title>
 <link rel="stylesheet" href="style.css">
 <style>
 #chat {
@@ -19,7 +19,13 @@
 <script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.min.js"></script>
 <script>
 const skapi = new Skapi('ap22p3Z9NKH9CBNseFEc','f8e16604-69e4-451c-9d90-4410f801c006');
-let messages = [{role:'system', content:'You are a mental wellness therapist. Offer compassionate and helpful guidance.'}];
+function systemPrompt(lang){
+  return {
+    role:'system',
+    content:`You are a translator. Translate everything the user says to ${lang}. Only reply with the translation.`
+  };
+}
+let currentLang = 'Spanish';
 function addMessage(role, content){
   let div = document.createElement('div');
   div.className = 'msg ' + role;
@@ -34,7 +40,9 @@ function sendMessage(e){
   if(!text){ return; }
   input.value='';
   addMessage('user', text);
-  messages.push({role:'user', content:text});
+  let lang = document.getElementById('language').value;
+  currentLang = lang;
+  let messages = [systemPrompt(lang), {role:'user', content:text}];
   skapi.clientSecretRequest({
     clientSecretName:'gpt',
     url:'https://api.openai.com/v1/chat/completions',
@@ -66,10 +74,19 @@ window.addEventListener('DOMContentLoaded', () => {
 </head>
 <body>
 <div class="container">
-<h2>Your Mental Wellness Therapist</h2>
+<h2>Language Translator</h2>
 <div id="chat"></div>
 <form onsubmit="sendMessage(event)">
-  <textarea id="input" placeholder="Say something..." required style="height:80px;"></textarea>
+  <label for="language">Translate to:</label>
+  <select id="language" style="margin-bottom:10px;width:100%;">
+    <option>Spanish</option>
+    <option>French</option>
+    <option>German</option>
+    <option>Japanese</option>
+    <option>Chinese</option>
+    <option>Korean</option>
+  </select>
+  <textarea id="input" placeholder="Enter text to translate..." required style="height:80px;"></textarea>
   <input type="submit" value="Send">
 </form>
 </div>
